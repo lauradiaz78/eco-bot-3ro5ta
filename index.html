@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Eco-Bot | EEST N°1 Zárate</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --accent: #10b981;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* HEADER & HERO */
+        header {
+            background: linear-gradient(135deg, #0284c7 0%, #0f172a 100%);
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .school-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        header p.subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* NAVIGATION */
+        nav {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid #e2e8f0;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+
+        /* EXPLAINER CARDS FOR FAMILY */
+        .family-note {
+            background: #eff6ff;
+            border-left: 5px solid var(--primary);
+            padding: 1.2rem;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .family-note h4 {
+            color: var(--primary-dark);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* GRID SYSTEM */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .card {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        /* MATERIALS LIST */
+        .mat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .mat-item:last-child { border-bottom: none; }
+
+        .mat-icon {
+            font-size: 1.4rem;
+            background: #e0f2fe;
+            padding: 0.4rem;
+            border-radius: 8px;
+        }
+
+        /* CAROUSEL */
+        .carousel-container {
+            position: relative;
+            max-width: 100%;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: #000;
+        }
+
+        .carousel-slide {
+            display: none;
+            width: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            max-height: 480px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.85);
+            color: white;
+            padding: 1rem;
+            font-size: 0.95rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--text-dark);
+            border: none;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        .carousel-btn:hover { background: white; }
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        /* ROLES */
+        .role-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 0.4rem;
+        }
+
+        /* TABLES */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border: 1px solid #cbd5e1;
+        }
+
+        th {
+            background: #e2e8f0;
+            color: var(--text-dark);
+        }
+
+        /* CODE BLOCK */
+        pre {
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 1.2rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+        }
+
+        /* BUTTONS */
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: 0.2s;
+        }
+
+        .btn-download:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: #0f172a;
+            color: white;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            .section { padding: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER PRINCIPAL -->
+    <header>
+        <div class="school-badge">🏫 EEST N°1 de Zárate • 3° 5° Grupo "A"</div>
+        <h1>Proyecto Integrador "Eco-Bot"</h1>
+        <p class="subtitle">Transformando una barredora manual en un robot de limpieza totalmente autónomo con Arduino</p>
+    </header>
+
+    <!-- NAVEGACIÓN RÁPIDA -->
+    <nav>
+        <a href="#intro">¿Qué es?</a>
+        <a href="#objetivos">Objetivos</a>
+        <a href="#materiales">Materiales</a>
+        <a href="#plano">Plano y Montaje</a>
+        <a href="#galeria">Galería</a>
+        <a href="#codigo">Código</a>
+        <a href="#equipo">Equipo y Roles</a>
+        <a href="#descargas">Recursos</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- SECCIÓN 1: INTRODUCCIÓN / MARCO TEÓRICO SENCILLEZ -->
+        <section id="intro" class="section">
+            <h2 class="section-title">💡 ¿Qué es el Proyecto Eco-Bot?</h2>
+            
+            <div class="family-note">
+                <h4>👵 Explicado en sencillo para la familia:</h4>
+                <p>Tomamos una barredora manual de las que se usan en las casas y le agregamos motores, baterías y un "cerebro electrónico" (Arduino). Ahora la barredora puede caminar sola y usar "orejitas invisibles" (sensores de ultrasonido) para esquivar muebles y paredes sin chocar a nadie.</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>⚙️ Mecánica Original</h3>
+                    <p>La barredora funciona mediante rodillos y cepillos que giran por fricción cuando las ruedas tocan el suelo, recogiendo polvo y pequeños residuos hacia un compartimento interno.</p>
+                </div>
+                <div class="card">
+                    <h3>🤖 Automatización Robótica</h3>
+                    <p>Al motorizar las ruedas traseras con motores eléctricos y añadir sensores en los 4 lados, el robot recorre las habitaciones y toma decisiones de giro automáticamente.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: OBJETIVOS -->
+        <section id="objetivos" class="section">
+            <h2 class="section-title">🎯 Objetivos del Proyecto</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Aprender Haciendo</h3>
+                    <p>Desarrollar capacidades técnicas en electricidad, electrónica, soldadura de circuitos y programación de computadoras en C++.</p>
+                </div>
+                <div class="card">
+                    <h3>Trabajo en Equipo</h3>
+                    <p>Aprender a organizarse en el taller simulando una pequeña empresa de ingeniería, donde cada alumno cumple una función clave.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: MATERIALES -->
+        <section id="materiales" class="section">
+            <h2 class="section-title">🛠️ Componentes y Materiales</h2>
+            <p style="margin-bottom: 1rem;">Estos son los elementos utilizados por cada grupo de trabajo:</p>
+            
+            <div class="grid-2">
+                <div>
+                    <div class="mat-item">
+                        <span class="mat-icon">🧹</span>
+                        <div><strong>Barredora Manual:</strong> Estructura base con cepillos.</div>
+                    </div>
+                    <div class="mat-item">
+                        <span class="mat-icon">🧠</span>
+                        <div><strong>Arduino Nano:</strong> El cerebro que procesa las órdenes.</div>
+                    </div>
+                    <div class="mat-item">
+                        <span class="mat-icon">🦇</span>
+                        <div><strong>4x Sensores HC-SR04:</strong> Miden distancias usando ultrasonido.</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="mat-item">
+                        <span class="mat-icon">⚡</span>
+                        <div><strong>Controlador L298N:</strong> Administra la fuerza de los motores.</div>
+                    </div>
+                    <div class="mat-item">
+                        <span class="mat-icon">⚙️</span>
+                        <div><strong>2x Motores DC con ruedas:</strong> Dan tracción y movimiento.</div>
+                    </div>
+                    <div class="mat-item">
+                        <span class="mat-icon">🔋</span>
+                        <div><strong>Baterías Recargables:</strong> Dan energía a todo el sistema.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placeholder para foto de materiales -->
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <img src="assets/fase1_componentes.jpg" alt="Componentes de Eco-Bot" style="width: 100%; max-height: 350px; object-fit: cover; border-radius: 10px;" onerror="this.src='https://via.placeholder.com/800x400?text=Foto+de+Componentes+Reales+(assets/fase1_componentes.jpg)'">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.4rem;">Mesa de trabajo con todos los insumos electrónicos antes del ensamble.</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: PLANO Y DISPOSICIÓN FISICA -->
+        <section id="plano" class="section">
+            <h2 class="section-title">📐 Plano de Montaje y Distribución</h2>
+            
+            <div class="family-note">
+                <h4>📍 ¿Cómo está distribuido por dentro?</h4>
+                <p>Las baterías van en la zona trasera para dar peso a las ruedas. En el centro van las placas electrónicas protegidas y en los 4 extremos (frente, izquierda, derecha y atrás) se colocan las "orejas" (sensores) para cuidar al robot en todas direcciones.</p>
+            </div>
+
+            <div style="text-align: center; margin: 1.5rem 0;">
+                <img src="assets/plano_eco_bot.png" alt="Plano de Ensamblaje Eco-Bot" style="width: 100%; max-width: 650px; border-radius: 12px; box-shadow: var(--shadow);" onerror="this.src='https://via.placeholder.com/650x500?text=Plano+de+Ensamblaje+Eco-Bot+(assets/plano_eco_bot.png)'">
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: GALERÍA DE FOTOS (CARRUSEL) -->
+        <section id="galeria" class="section">
+            <h2 class="section-title">📸 Avances del Proyecto en el Taller</h2>
+            <p>Así fueron trabajando los alumnos clase a clase durante las 8 semanas de taller:</p>
+
+            <div class="carousel-container">
+                <div class="carousel-slide">
+                    <img src="assets/estudiantes_trabajando.jpg" alt="Fase 1: Estudiantes trabajando" onerror="this.src='https://via.placeholder.com/800x450?text=Fase+1:+Estudiantes+Analizando+la+Barredora'">
+                    <div class="carousel-caption"><strong>Fase 1:</strong> Análisis de la estructura y prueba de componentes electrónicos en mesa.</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="assets/fase2_armado50.jpg" alt="Fase 2: Armado al 50%" onerror="this.src='https://via.placeholder.com/800x450?text=Fase+2:+Acople+Mecánico+de+Motores+al+50%25'">
+                    <div class="carousel-caption"><strong>Fase 2:</strong> Perforación, soporte de motores traseros y montaje de ruedas al 50%.</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="assets/fase3_cableado.jpg" alt="Fase 3: Cableado y conexiones" onerror="this.src='https://via.placeholder.com/800x450?text=Fase+3:+Soldadura+y+Cableado+del+Puente+H'">
+                    <div class="carousel-caption"><strong>Fase 3:</strong> Soldadura de cables, orden en la protoboard y colocación de sensores.</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="assets/fase4_proyecto_final.jpg" alt="Fase 4: Proyecto terminado" onerror="this.src='https://via.placeholder.com/800x450?text=Fase+4:+Proyecto+Eco-Bot+Finalizado+y+Probando'">
+                    <div class="carousel-caption"><strong>Fase 4:</strong> Pruebas de funcionamiento en pista esquivando obstáculos. ¡Éxito total!</div>
+                </div>
+
+                <button class="carousel-btn prev" onclick="moveSlide(-1)">❮</button>
+                <button class="carousel-btn next" onclick="moveSlide(1)">❯</button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: CÓDIGO Y LÓGICA -->
+        <section id="codigo" class="section">
+            <h2 class="section-title">💻 El "Cerebro" de Eco-Bot (Programación)</h2>
+            <div class="family-note">
+                <h4>🧠 ¿Cómo piensa el robot?</h4>
+                <p>El programa hace que el robot revise su sensor del frente constante. Si no hay nada a menos de 25 cm, avanza. Si encuentra una pared, se frena, mira a la izquierda y derecha, elige el camino libre y vuelve a avanzar.</p>
+            </div>
+
+            <details>
+                <summary style="cursor: pointer; font-weight: bold; color: var(--primary-dark); padding: 0.5rem 0;">Ver código fuente completo para Arduino Nano (C++)</summary>
+                <pre><code>// Pines de control de motores
+const int IN1 = 5;  const int IN2 = 6;
+const int IN3 = 9;  const int IN4 = 10;
+
+// Pines Sensores Ultrasónicos
+const int trigFrente = 2;    const int echoFrente = 3;
+const int trigDerecha = 4;   const int echoDerecha = 7;
+const int trigIzquierda = 8; const int echoIzquierda = 11;
+const int trigAtras = A0;    const int echoAtras = A1;
+
+const int distSeguridad = 25; // cm
+
+void setup() {
+  pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
+  pinMode(trigFrente, OUTPUT); pinMode(echoFrente, INPUT);
+}
+
+void loop() {
+  int distFrente = medirDistancia(trigFrente, echoFrente);
+  if (distFrente > distSeguridad) {
+    avanzar();
+  } else {
+    detener();
+    // Revisa esquinas y decide hacia dónde girar...
+  }
+}</code></pre>
+            </details>
+        </section>
+
+        <!-- SECCIÓN 7: EQUIPO Y ROLES -->
+        <section id="equipo" class="section">
+            <h2 class="section-title">👥 Equipos de Trabajo y Organización</h2>
+            <p style="margin-bottom: 1rem;">Cada grupo de 4 alumnos organizó las tareas según roles profesionales:</p>
+
+            <div class="grid-2">
+                <div class="card">
+                    <span class="role-badge">Alumno 1</span>
+                    <h3>🔧 Especialista Mecánico</h3>
+                    <p>Encargado de perforar, adaptar el chasis, asegurar los motores y nivelar la barredora contra el suelo.</p>
+                </div>
+                <div class="card">
+                    <span class="role-badge">Alumno 2</span>
+                    <h3>⚡ Especialista Electrónico</h3>
+                    <p>Maneja la protoboard, realiza soldaduras con estaño y verifica que las polaridades no quemen componentes.</p>
+                </div>
+                <div class="card">
+                    <span class="role-badge">Alumno 3</span>
+                    <h3>💻 Programador de Lógica</h3>
+                    <p>Escribe el código en la computadora, sube el programa al Arduino Nano y calibra los tiempos de giro.</p>
+                </div>
+                <div class="card">
+                    <span class="role-badge">Alumno 4</span>
+                    <h3>📋 Director de Pruebas</h3>
+                    <p>Lidera el grupo, verifica el calendario de 8 semanas, documenta en fotos y prueba la pista con obstáculos.</p>
+                </div>
+            </div>
+
+            <!-- CRONOGRAMA PLANIFICACIÓN -->
+            <h3 style="margin-top: 2rem; color: var(--primary-dark);">📅 Cronograma de Trabajo (8 Semanas)</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Etapa</th>
+                            <th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th><th>S7</th><th>S8</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. Análisis y Componentes</td>
+                            <td>██</td><td>██</td><td></td><td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td>2. Ensamble Mecánico</td>
+                            <td></td><td></td><td>██</td><td>██</td><td></td><td></td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td>3. Electrónica y Soldadura</td>
+                            <td></td><td></td><td></td><td></td><td>██</td><td>██</td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td>4. Programación y Pruebas</td>
+                            <td></td><td></td><td></td><td></td><td></td><td></td><td>██</td><td>██</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 8: DESCARGAS -->
+        <section id="descargas" class="section" style="text-align: center;">
+            <h2 class="section-title" style="justify-content: center;">📁 Recursos del Proyecto</h2>
+            <p>Puedes descargar el informe técnico completo en formato PDF listo para imprimir:</p>
+            
+            <a href="assets/Proyecto_EcoBot.pdf" class="btn-download" target="_blank">
+                📥 Descargar Informe Técnico PDF
+            </a>
+        </section>
+
+    </div>
+
+    <!-- FOOTER INSTITUCIONAL -->
+    <footer>
+        <p><strong>Escuela de Educación Secundaria Técnica N° 1 "Almirante Guillermo Brown" - Zárate</strong></p>
+        <p>Curso: 3° Año 5° División • Grupo "A" • Materia: Sistemas Tecnológicos</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Proyecto Educativo de Robótica Autónoma • Año 2026</p>
+    </footer>
+
+    <!-- LÓGICA DEL CARRUSEL -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.display = (i === index) ? 'block' : 'none';
+            });
+        }
+
+        function moveSlide(step) {
+            currentSlide += step;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            showSlide(currentSlide);
+        }
+
+        // Inicializar el carrusel
+        showSlide(currentSlide);
+
+        // Cambio automático cada 5 segundos
+        setInterval(() => {
+            moveSlide(1);
+        }, 5000);
+    </script>
+</body>
+</html>
